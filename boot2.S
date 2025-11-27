@@ -4,7 +4,10 @@
 
 .section .boot2, "ax"
 
-#define SPI_FAST
+// Not implemented yet
+// Have to enable the QSPI mode on the flash through the SSI first
+// WIP
+//#define SPI_FAST
 
 #define SSI_BASE      0x18000000
 #define PPB_BASE      0xE0000000
