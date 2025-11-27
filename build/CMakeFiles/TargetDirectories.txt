@@ -1,0 +1,3 @@
+/home/vizn3r/dev/pico-vina/build/CMakeFiles/firmware.elf.dir
+/home/vizn3r/dev/pico-vina/build/CMakeFiles/edit_cache.dir
+/home/vizn3r/dev/pico-vina/build/CMakeFiles/rebuild_cache.dir
