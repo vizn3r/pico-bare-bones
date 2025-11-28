@@ -1,10 +1,9 @@
 #!/bin/bash
 
-rm -rf boot_build
-mkdir boot_build
+mkdir -p build
 rm boot2_checked.S
 
-cd boot_build
+cd build
 
 arm-none-eabi-gcc -c ../boot2.S -o boot2_temp.o
 arm-none-eabi-objcopy -O binary boot2_temp.o boot2_raw.bin
