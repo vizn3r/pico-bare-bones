@@ -1,6 +1,6 @@
 #include "kernel.h"
+#include "../hal/gpio.h"
 #include "../serial/usb.h"
-#include "gpio.h"
 #include <stdint.h>
 
 static int strlen(const char *s) {
@@ -11,17 +11,9 @@ static int strlen(const char *s) {
 }
 
 int kernel_main(void) {
-  HW_RESETS_RESET_CLR(HW_RESETS_RESET_OFFSET_IO_BANK0);
-  HW_RESETS_RESET_CLR(HW_RESETS_RESET_OFFSET_PADS_BANK0);
+  hw_gpio_enable_led();
 
-  while (!HW_RESETS_RESET_DONE_OK(HW_RESETS_RESET_OFFSET_IO_BANK0))
-    ;
-  while (!HW_RESETS_RESET_DONE_OK(HW_RESETS_RESET_OFFSET_PADS_BANK0))
-    ;
-
-  HW_GPIO_CTRL(HW_LED_GPIO) = 5;
-  HW_SIO_GPIO_OE_SET(HW_LED_GPIO);
-  HW_SIO_GPIO_OUT_SET(HW_LED_GPIO);
+  hw_gpio_led_blink_fast(3);
 
   s_usb_init_blocking();
   const char *data = "Hello world!";

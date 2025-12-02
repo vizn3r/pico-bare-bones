@@ -12,16 +12,16 @@ vector_table:
   .word _start            // Reset
   .word hang              // NMI
   .word hang              // HardFault
-  .word hang              // Reserved
-  .word hang              // Reserved
-  .word hang              // Reserved
-  .word hang              // Reserved
-  .word hang              // Reserved
-  .word hang              // Reserved
-  .word hang              // Reserved
+  .word 0                 // Reserved
+  .word 0                 // Reserved
+  .word 0                 // Reserved
+  .word 0                 // Reserved
+  .word 0                 // Reserved
+  .word 0                 // Reserved
+  .word 0                 // Reserved
   .word hang              // SVCall
-  .word hang              // Reserved
-  .word hang              // Reserved
+  .word 0                 // Reserved
+  .word 0                 // Reserved
   .word hang              // PendSV
   .word hang              // SysTick
   .word hang              // IRQ0 TIMER_IRQ_0
@@ -50,14 +50,9 @@ vector_table:
   .word hang              // IRQ23 I2C0_IRQ
   .word hang              // IRQ24 I2C1_IRQ
   .word hang              // IRQ25 RTC_IRQ
-  .word hang              // IRQ26
-  .word hang              // IRQ27
-  .word hang              // IRQ28
-  .word hang              // IRQ29
-  .word hang              // IRQ30
-  .word hang              // IRQ31
 
 
 .thumb_func
 hang:
   b hang
+

@@ -1,4 +1,5 @@
 #include "../regs/usb.h"
+#include "../hal/gpio.h"
 #include "../regs/gpio.h"
 #include "usb.h"
 #include <stdint.h>
@@ -13,11 +14,16 @@ static volatile uint8_t configured = 0;
 static volatile uint8_t pending_address = 0;
 
 void s_usb_init_blocking(void) {
+  __asm volatile("cpsie i");
+  // Enable XOSC
   *(volatile uint32_t *)0x40024000 = 0xAA0;
   *(volatile uint32_t *)0x40024004 = 47;
   while (!(*(volatile uint32_t *)0x4002400C & 0x80000000))
     ;
 
+  hw_gpio_led_blink(1);
+
+  // Configure PLL_USB
   HW_RESETS_RESET_CLR(HW_RESETS_RESET_OFFSET_PLL_USB);
   while (!HW_RESETS_RESET_DONE_OK(HW_RESETS_RESET_OFFSET_PLL_USB))
     ;
@@ -28,30 +34,35 @@ void s_usb_init_blocking(void) {
   *(volatile uint32_t *)0x4002C008 = 0;
   while (!(*(volatile uint32_t *)0x4002C000 & 0x80000000))
     ;
+  hw_gpio_led_blink(1);
   *(volatile uint32_t *)0x4002C00C = (5 << 16) | (2 << 12);
 
-  *(volatile uint32_t *)0x4000805C = 0;
-  *(volatile uint32_t *)0x40008060 = (1 << 11);
+  // Configure CLK_USB from PLL_USB (48MHz)
+  *(volatile uint32_t *)0x40008058 = (1 << 8);  // CLK_USB_DIV: divide by 1
+  *(volatile uint32_t *)0x40008054 = (1 << 11); // CLK_USB_CTRL: enable
 
+  // Bring USB controller out of reset
   HW_RESETS_RESET_CLR(HW_RESETS_RESET_OFFSET_USBCTRL);
   while (!HW_RESETS_RESET_DONE_OK(HW_RESETS_RESET_OFFSET_USBCTRL))
     ;
+  hw_gpio_led_blink(1);
 
+  // Clear DPSRAM
   for (int i = 0; i < 4096; i += 4) {
     *(volatile uint32_t *)(S_USB_DPSRAM_BASE + i) = 0;
   }
 
   S_USB_REG_MAIN_CTRL.raw = 0;
   S_USB_REG_USB_MUXING.to_phy = 1;
-  S_USB_REG_USB_MUXING.softcon = 1; // ADDED
+  S_USB_REG_USB_MUXING.softcon = 1;
 
-  S_USB_REG_USB_PWR.vbus_detect = 1;
-  S_USB_REG_USB_PWR.vbus_detect_override_en = 1;
+  // S_USB_REG_USB_PWR.vbus_detect = 1;
+  // S_USB_REG_USB_PWR.vbus_detect_override_en = 1;
 
   S_USB_REG_MAIN_CTRL.controller_en = 1;
 
-  while (!S_USB_REG_SIE_STATUS.vbus_detected)
-    ;
+  // while (!S_USB_REG_SIE_STATUS.vbus_detected)
+  //   ;
 
   S_USB_REG_INTE.setup_req = 1;
   S_USB_REG_INTE.buff_status = 1;
@@ -59,13 +70,14 @@ void s_usb_init_blocking(void) {
 
   S_USB_REG_SIE_CTRL.pullup_en = 1;
 
-  S_USB_DPSRAM_EP_OUT_BUFF_CTRL(0) = 64 | (1 << 10); // ADDED
+  S_USB_DPSRAM_EP_OUT_BUFF_CTRL(0) = 64 | (1 << 10);
 
   *(volatile uint32_t *)0xE000E100 |= (1 << 5);
-  __asm volatile("cpsie i"); // ADDED
+  hw_gpio_led_blink_fast(3);
 }
 
 void s_usb_irq_handle(void) {
+  HW_SIO_GPIO_OUT_SET(HW_LED_GPIO);
   if (S_USB_REG_INTS.setup_req) {
     volatile uint8_t *setup = (volatile uint8_t *)S_USB_DPSRAM_SETUP_PACKET;
 
@@ -74,7 +86,6 @@ void s_usb_irq_handle(void) {
     uint8_t desc_type;
     uint8_t desc_index;
 
-    // volatile uint8_t *ep0_in_buf;
     uint16_t len;
 
     const uint8_t *str_desc;
@@ -83,11 +94,10 @@ void s_usb_irq_handle(void) {
     switch (packet->bRequest) {
     case 0x05: // SET_ADDRESS
       pending_address = packet->wValue & 0x7F;
-      // Send ZLP, address is set after status stage completes
       ep0_data_toggle = 1;
       S_USB_DPSRAM_EP_IN_BUFF_CTRL(0) = (1 << 13) | (1 << 15) | (1 << 10);
       break;
-    case 0x06: // SET_DESCRIPTOR
+    case 0x06: // GET_DESCRIPTOR
       desc_type = (packet->wValue >> 8) & 0xFF;
       desc_index = packet->wValue & 0xFF;
 
@@ -107,7 +117,7 @@ void s_usb_irq_handle(void) {
         S_USB_DPSRAM_EP_IN_BUFF_CTRL(0) =
             len | (1 << 13) | (1 << 15) | (1 << 10);
         break;
-      case 0x02:
+      case 0x02: // Configuration descriptor
         len = sizeof(config_descriptor);
         if (len > packet->wLength)
           len = packet->wLength;
@@ -118,11 +128,10 @@ void s_usb_irq_handle(void) {
           ep0_in_buf[i] = config_descriptor[i];
         }
 
-        // full 15 bit, avaliable in bit 31
         S_USB_DPSRAM_EP_IN_BUFF_CTRL(0) = len | (1 << 15) | (1 << 31);
 
         break;
-      case 0x03:
+      case 0x03: // String descriptor
         switch (desc_index) {
         case 0:
           str_desc = string_descriptor_0;
@@ -155,9 +164,7 @@ void s_usb_irq_handle(void) {
       break;
     case 0x09: // SET_CONFIGURATION
       configured = 1;
-      // Arm EP2 OUT for receiving data
       S_USB_DPSRAM_EP_OUT_BUFF_CTRL(2) = 64 | (1 << 10);
-      // Send ZLP status
       ep0_data_toggle = 1;
       S_USB_DPSRAM_EP_IN_BUFF_CTRL(0) = (1 << 13) | (1 << 15) | (1 << 10);
       break;
@@ -173,7 +180,6 @@ void s_usb_irq_handle(void) {
     S_USB_REG_BUFF_STATUS.raw = buffers;
 
     if (buffers & (1 << 0)) {
-      // EP0 IN completed
       if (pending_address) {
         S_USB_REG_ADDR_ENDP.address = pending_address;
         pending_address = 0;
@@ -183,7 +189,6 @@ void s_usb_irq_handle(void) {
       // interrupt done sending
     }
     if (buffers & (1 << 4)) {
-      // receive
       s_usb_cdc_recv_buff_len = s_usb_cdc_recv(s_usb_cdc_recv_buff, 64);
     }
     if (buffers & (1 << 5)) {

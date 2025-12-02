@@ -42,9 +42,9 @@ typedef union {
 // 0x40
 typedef union {
   struct {
-    uint32_t : 30;
-    uint32_t host_ndevice : 1;
     uint32_t controller_en : 1;
+    uint32_t host_ndevice : 1;
+    uint32_t : 30;
   };
   uint32_t raw;
 } s_usb_reg_main_ctrl_t;
@@ -190,27 +190,27 @@ typedef union {
 // 0x90
 typedef union {
   struct {
-    uint32_t : 12;
-    uint32_t ep_stall_nak : 1;
-    uint32_t abort_done : 1;
-    uint32_t dev_sof : 1;
-    uint32_t setup_req : 1;
-    uint32_t dev_resume_from_host : 1;
-    uint32_t dev_suspend : 1;
-    uint32_t dev_conn_dis : 1;
-    uint32_t bus_reset : 1;
-    uint32_t vbus_detect : 1;
-    uint32_t stall : 1;
-    uint32_t error_crc : 1;
-    uint32_t error_bit_stuff : 1;
-    uint32_t error_rx_overflow : 1;
-    uint32_t error_rx_timeout : 1;
-    uint32_t error_data_seq : 1;
-    uint32_t buff_status : 1;
-    uint32_t trans_complete : 1;
-    uint32_t host_sof : 1;
-    uint32_t host_resume : 1;
     uint32_t host_conn_dis : 1;
+    uint32_t host_resume : 1;
+    uint32_t host_sof : 1;
+    uint32_t trans_complete : 1;
+    uint32_t buff_status : 1;
+    uint32_t error_data_seq : 1;
+    uint32_t error_rx_timeout : 1;
+    uint32_t error_rx_overflow : 1;
+    uint32_t error_bit_stuff : 1;
+    uint32_t error_crc : 1;
+    uint32_t stall : 1;
+    uint32_t vbus_detect : 1;
+    uint32_t bus_reset : 1;
+    uint32_t dev_conn_dis : 1;
+    uint32_t dev_suspend : 1;
+    uint32_t dev_resume_from_host : 1;
+    uint32_t setup_req : 1;
+    uint32_t dev_sof : 1;
+    uint32_t abort_done : 1;
+    uint32_t ep_stall_nak : 1;
+    uint32_t : 12;
   };
   uint32_t raw;
 } s_usb_reg_inte_t;
