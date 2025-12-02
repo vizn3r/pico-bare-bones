@@ -2,7 +2,7 @@ extern unsigned int __data_start, __data_end, __data_load;
 extern unsigned int __bss_start, __bss_end;
 extern unsigned int _stack_top;
 
-extern int main(void);
+extern int kernel_main(void);
 
 //__attribute__((noreturn, section(".text._start"))) void _start(void) {
 //  unsigned int *src = &__data_load;
@@ -40,7 +40,7 @@ __attribute__(()) void _c_startup(void) {
     *dst++ = 0;
   }
 
-  main();
+  kernel_main();
 
   while (1)
     ;

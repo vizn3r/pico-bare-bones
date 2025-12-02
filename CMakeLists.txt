@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(pico-vina C ASM)
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 23)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CMAKE_SYTEM_NAME Generic)
@@ -21,7 +21,18 @@ set(CMAKE_ASM_FLAGS "${CPU_FLAGS}")
 set(LINKER_SCRIPT "${CMAKE_SOURCE_DIR}/linker.ld")
 set(CMAKE_EXE_LINKER_FLAGS "-T ${LINKER_SCRIPT} -nostdlib -Wl,-Map=output.map")
 
-add_executable(firmware.elf boot/boot2_checked.S boot/vectors.S src/startup.c src/main.c)
+include_directories(src/regs)
+add_subdirectory(src/kernel)
+add_subdirectory(src/serial)
+add_subdirectory(src/hal)
+
+add_executable(firmware.elf
+  boot/boot2_checked.S
+  boot/vectors.S
+
+  src/startup.c
+  src/kernel/kernel.c
+)
 
 add_custom_command(TARGET firmware.elf POST_BUILD
   COMMAND ${CMAKE_OBJCOPY} -O binary firmware.elf firmware.bin
