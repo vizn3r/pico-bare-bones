@@ -5,6 +5,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <sys/types.h>
 
 // Base registers
 #define S_USB_CTRL_BASE 0x50100000
@@ -209,6 +210,7 @@ typedef union {
     uint32_t trans_complete : 1;
     uint32_t host_sof : 1;
     uint32_t host_resume : 1;
+    uint32_t host_conn_dis : 1;
   };
   uint32_t raw;
 } s_usb_reg_inte_t;

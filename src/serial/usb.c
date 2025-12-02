@@ -7,76 +7,72 @@
 uint8_t s_usb_cdc_recv_buff[64];
 uint16_t s_usb_cdc_recv_buff_len;
 
+static uint8_t ep0_data_toggle = 0;
+static uint8_t ep2_in_data_toggle = 0;
+static volatile uint8_t configured = 0;
+static volatile uint8_t pending_address = 0;
+
 void s_usb_init_blocking(void) {
-  // DON'T touch USB reset yet
+  __asm volatile("cpsie i");
 
-  // 1. Setup clocks FIRST
-  // Enable XOSC
-  *(volatile uint32_t *)0x40024000 = 0xAA0;
-  *(volatile uint32_t *)0x40024004 = 47;
-  while (!(*(volatile uint32_t *)0x4002400C & 0x80000000))
+  // Start XOSC
+  *(volatile uint32_t *)0x4002400C = 47;       // STARTUP delay
+  *(volatile uint32_t *)0x40024000 = 0xFABAA0; // CTRL: enable
+  while (!(*(volatile uint32_t *)0x40024004 & 0x80000000))
     ;
 
-  // Unreset PLL_USB
-  HW_RESETS_RESET_CLR(HW_RESETS_RESET_OFFSET_PLL_USB);
-  while (!HW_RESETS_RESET_DONE_OK(HW_RESETS_RESET_OFFSET_PLL_USB))
-    ;
+  // Reset PLL_USB
+  *(volatile uint32_t *)0x4000E000 = (1 << 13); // Atomic set (assert reset)
+  *(volatile uint32_t *)0x4000F000 =
+      (1 << 13); // Atomic clear (release reset)  while (!(*(volatile uint32_t
+                 // *)0x4000C008 & (1 << 13)))
+  ;
 
-  // Configure PLL_USB
-  *(volatile uint32_t *)0x4002C008 =
-      (1 << 5) | (1 << 8);               // Power down VCO and post dividers
-  *(volatile uint32_t *)0x4002C000 = 1;  // REFDIV = 1
-  *(volatile uint32_t *)0x4002C004 = 40; // FBDIV = 40
-  *(volatile uint32_t *)0x4002C008 = 0;  // Power up
+  // PLL config
+  *(volatile uint32_t *)0x4002C004 = 0x29;
+  *(volatile uint32_t *)0x4002C000 = 1;
+  *(volatile uint32_t *)0x4002C008 = 40;
+  *(volatile uint32_t *)0x4002C004 = 0x20;
+
   while (!(*(volatile uint32_t *)0x4002C000 & 0x80000000))
     ;
+
   *(volatile uint32_t *)0x4002C00C = (5 << 16) | (2 << 12);
+  *(volatile uint32_t *)0x4002C004 = 0;
 
-  // Enable USB clock
-  *(volatile uint32_t *)0x4000805C = 0;         // CLK_USB_CTRL = PLL_USB
-  *(volatile uint32_t *)0x40008060 = (1 << 11); // CLK_USB_DIV = 1.0
+  // USB clock
+  *(volatile uint32_t *)0x40008058 =
+      (1 << 8); // DIV = 1 (integer part at bits 8+)
+  *(volatile uint32_t *)0x40008054 = (1 << 11); // ENABLE
 
-  // 2. NOW unreset USB
-  HW_RESETS_RESET_CLR(HW_RESETS_RESET_OFFSET_USBCTRL);
-  while (!HW_RESETS_RESET_DONE_OK(HW_RESETS_RESET_OFFSET_USBCTRL))
+  // Unreset USB - use atomic clear register
+  *(volatile uint32_t *)0x4000F000 = (1 << 24); // RESETS atomic clear
+  while (!(*(volatile uint32_t *)0x4000C008 & (1 << 24)))
     ;
-
-  // Blink if we got here
-  for (int j = 0; j < 10; j++) {
-    HW_SIO_GPIO_OUT_SET(HW_LED_GPIO);
-    for (volatile int i = 0; i < 500000; i++)
-      ;
-    HW_SIO_GPIO_OUT_CLR(HW_LED_GPIO);
-    for (volatile int i = 0; i < 500000; i++)
-      ;
-  }
 
   // Clear DPSRAM
   for (int i = 0; i < 4096; i += 4) {
     *(volatile uint32_t *)(S_USB_DPSRAM_BASE + i) = 0;
   }
 
-  S_USB_REG_MAIN_CTRL.raw = 0;
-  S_USB_REG_USB_MUXING.to_phy = 1;
+  // USB setup
+  *(volatile uint32_t *)(S_USB_REGS_BASE + 0x40) = 0;
+  *(volatile uint32_t *)(S_USB_REGS_BASE + 0x74) = (1 << 0) | (1 << 3);
+  *(volatile uint32_t *)(S_USB_REGS_BASE + 0x78) = (1 << 2) | (1 << 3);
+  *(volatile uint32_t *)(S_USB_REGS_BASE + 0x40) = 1;
 
-  S_USB_REG_USB_PWR.vbus_detect = 1;
-  S_USB_REG_USB_PWR.vbus_detect_override_en = 1;
+  S_USB_DPSRAM_EP_IN_CTRL(1) = (1 << 31) | (3 << 26) | (0x140 >> 6);
+  S_USB_DPSRAM_EP_OUT_CTRL(2) = (1 << 31) | (2 << 26) | (0x180 >> 6);
+  S_USB_DPSRAM_EP_IN_CTRL(2) = (1 << 31) | (2 << 26) | (0x1C0 >> 6);
 
-  S_USB_REG_MAIN_CTRL.controller_en = 1;
+  *(volatile uint32_t *)(S_USB_REGS_BASE + 0x90) =
+      (1 << 16) | (1 << 4) | (1 << 12);
+  *(volatile uint32_t *)(S_USB_REGS_BASE + 0x4c) = (1 << 16);
 
-  // Blocking until USB not connected
-  while (!S_USB_REG_SIE_STATUS.vbus_detected)
-    ;
+  *(volatile uint32_t *)(S_USB_DPSRAM_BASE + 0x84) = 64;
+  *(volatile uint32_t *)(S_USB_DPSRAM_BASE + 0x1000 + 0x84) = (1 << 10);
 
-  S_USB_REG_INTE.setup_req = 1;
-  S_USB_REG_INTE.buff_status = 1;
-  S_USB_REG_INTE.bus_reset = 1;
-
-  S_USB_REG_SIE_CTRL.pullup_en = 1;
-  for (volatile int i = 0; i < 100000; i++)
-    ; // Small delay
-
-  *(volatile uint32_t *)0xE000E100 |= (1 << 5);
+  *(volatile uint32_t *)0xE000E100 = (1 << 5);
 }
 
 void s_usb_irq_handle(void) {
@@ -95,29 +91,31 @@ void s_usb_irq_handle(void) {
     uint16_t str_len;
 
     switch (packet->bRequest) {
-    case 0x05: // SES_ADDRESS
-      S_USB_REG_ADDR_ENDP.address = packet->wValue & 0x7F;
-
-      S_USB_DPSRAM_EP_IN_BUFF_CTRL(0) = 0x80000000;
+    case 0x05: // SET_ADDRESS
+      pending_address = packet->wValue & 0x7F;
+      // Send ZLP, address is set after status stage completes
+      ep0_data_toggle = 1;
+      S_USB_DPSRAM_EP_IN_BUFF_CTRL(0) = (1 << 13) | (1 << 15) | (1 << 10);
       break;
     case 0x06: // SET_DESCRIPTOR
       desc_type = (packet->wValue >> 8) & 0xFF;
       desc_index = packet->wValue & 0xFF;
 
       switch (desc_type) {
-      case 0x01:
+      case 0x01: // Device descriptor
         len = sizeof(device_descriptor);
         if (len > packet->wLength)
           len = packet->wLength;
 
-        ep0_in_buf = (volatile uint8_t *)(S_USB_DPSRAM_BASE + 0x100);
-
+        volatile uint8_t *ep0_in_buf =
+            (volatile uint8_t *)(S_USB_DPSRAM_BASE + 0x100);
         for (int i = 0; i < len; i++) {
           ep0_in_buf[i] = device_descriptor[i];
         }
 
-        // full 15 bit, avaliable in bit 31
-        S_USB_DPSRAM_EP_IN_BUFF_CTRL(0) = len | (1 << 15) | (1 << 31);
+        ep0_data_toggle = 1;
+        S_USB_DPSRAM_EP_IN_BUFF_CTRL(0) =
+            len | (1 << 13) | (1 << 15) | (1 << 10);
         break;
       case 0x02:
         len = sizeof(config_descriptor);
@@ -166,10 +164,12 @@ void s_usb_irq_handle(void) {
       }
       break;
     case 0x09: // SET_CONFIGURATION
-      S_USB_DPSRAM_EP_IN_CTRL(1) = 0x0;
-      S_USB_DPSRAM_EP_OUT_CTRL(2) = 0x0;
-      S_USB_DPSRAM_EP_IN_CTRL(2) = 0x0;
-      S_USB_DPSRAM_EP_IN_BUFF_CTRL(0) = 0x80000000;
+      configured = 1;
+      // Arm EP2 OUT for receiving data
+      S_USB_DPSRAM_EP_OUT_BUFF_CTRL(2) = 64 | (1 << 10);
+      // Send ZLP status
+      ep0_data_toggle = 1;
+      S_USB_DPSRAM_EP_IN_BUFF_CTRL(0) = (1 << 13) | (1 << 15) | (1 << 10);
       break;
     default:
       break;
@@ -182,6 +182,13 @@ void s_usb_irq_handle(void) {
 
     S_USB_REG_BUFF_STATUS.raw = buffers;
 
+    if (buffers & (1 << 0)) {
+      // EP0 IN completed
+      if (pending_address) {
+        S_USB_REG_ADDR_ENDP.address = pending_address;
+        pending_address = 0;
+      }
+    }
     if (buffers & (1 << 2)) {
       // interrupt done sending
     }
@@ -196,22 +203,34 @@ void s_usb_irq_handle(void) {
 
   if (S_USB_REG_INTS.bus_reset) {
     S_USB_REG_ADDR_ENDP.address = 0;
+    configured = 0;
+    pending_address = 0;
+    ep0_data_toggle = 0;
+    ep2_in_data_toggle = 0;
     S_USB_REG_SIE_STATUS.bus_reset = 1;
   }
 }
 
 void s_usb_cdc_send(const uint8_t *data, uint16_t len) {
+  if (!configured || len > 64)
+    return;
   if (len > 64)
     len = 64;
 
   volatile uint8_t *ep2_in_buf =
-      (volatile uint8_t *)(S_USB_DPSRAM_BASE + 0x180);
+      (volatile uint8_t *)(S_USB_DPSRAM_BASE + 0x1C0);
 
   for (int i = 0; i < len; i++) {
     ep2_in_buf[i] = data[i];
   }
 
-  S_USB_DPSRAM_EP_IN_BUFF_CTRL(2) = len | (1 << 15) | (1 << 31);
+  uint32_t buf_ctrl = len | (1 << 15) | (1 << 10);
+  if (ep2_in_data_toggle) {
+    buf_ctrl |= (1 << 13);
+  }
+  ep2_in_data_toggle ^= 1;
+
+  S_USB_DPSRAM_EP_IN_BUFF_CTRL(2) = buf_ctrl;
 }
 
 uint16_t s_usb_cdc_recv(uint8_t *data, uint16_t max_len) {

@@ -2,6 +2,8 @@
 .cpu cortex-m0plus
 .thumb
 
+.extern s_usb_irq_handle
+
 .section .vectors, "ax"
 
 .global vector_table
