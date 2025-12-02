@@ -35,6 +35,7 @@ typedef union {
     uint32_t : 9;
     uint32_t address : 7;
   };
+  uint32_t raw;
 } s_usb_reg_addr_endp_t;
 
 // 0x40

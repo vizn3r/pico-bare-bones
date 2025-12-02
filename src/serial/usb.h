@@ -17,7 +17,7 @@ typedef struct {
   uint8_t bRequest;
   uint16_t wValue;
   uint16_t wIndex;
-  uint16_t wLenght;
+  uint16_t wLength;
 } __attribute__((packed)) s_usb_setup_packet_t;
 
 extern uint8_t s_usb_cdc_recv_buff[64];
