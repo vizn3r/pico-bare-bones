@@ -19,9 +19,10 @@
 ### Current goals (might change over time):
 
 - ✅ Custom stage 2 bootloader
-- Basic scheduler
-- Serial interface
-- Some form of a executable format
 - Simple kernel for syscalls
+- Serial interface
+- Hardware abstractions
+- Basic scheduler
 - Memory manager
 - Semi-custom stdlib (malloc, free, printf, scanf...)
+- Some form of a executable format
