@@ -4,23 +4,23 @@
 
 #pragma once
 
-#define RESETS_BASE(offset) (0x4000c000 + (offset))
+#define RESETS_BASE 0x4000c000
 
 #define RESETS_RESET_RST 0x1
 #define RESETS_WDSEL_RST 0x0
 #define RESETS_DONE_RST 0x0
 
-#define RESETS_RESET(peripheral) *(volatile uint32_t *)RESETS_BASE(0x0)
+#define RESETS_RESET(peripheral) *(volatile uint32_t *)(RESETS_BASE + 0x0)
 
 #define RESETS_RESET_CLR(peripheral)                                           \
   RESETS_RESET(peripheral) &= ~(RESETS_RESET_RST << (peripheral))
 
-#define RESETS_WDSEL(watchdog) *(volatile uint32_t *)RESETS_BASE(0x4)
+#define RESETS_WDSEL(watchdog) *(volatile uint32_t *)(RESETS_BASE + 0x4)
 
 #define RESETS_WDSEL_CLR(watchdog)                                             \
   RESETS_WDSEL(watchdog) &= ~(RESETS_WDSEL_RST << (watchdog))
 
-#define RESETS_RESET_DONE(done) *(volatile uint32_t *)RESETS_BASE(0x8)
+#define RESETS_RESET_DONE(done) *(volatile uint32_t *)(RESETS_BASE + 0x8)
 
 #define RESETS_RESET_DONE_OK(done) (RESETS_RESET_DONE(done) & (1 << (done)))
 
