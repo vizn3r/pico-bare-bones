@@ -31,7 +31,7 @@ typedef union {
     uint32_t postdivpd : 1;
     uint32_t : 1;
     uint32_t vcopd : 1;
-    uint32_t : 24;
+    uint32_t : 26;
   };
   uint32_t raw;
 } pll_pwr_t;

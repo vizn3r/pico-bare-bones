@@ -91,16 +91,16 @@ typedef union {
   struct {
     uint32_t vbus_detected : 1;
     uint32_t : 1;
-    uint32_t line_state : 1;
+    uint32_t line_state : 2;
     uint32_t suspended : 1;
     uint32_t : 3;
-    uint32_t speed : 1;
+    uint32_t speed : 2;
     uint32_t vbus_over_curr : 1;
     uint32_t resume : 1;
-    uint32_t reserved : 1;
+    uint32_t : 4;
     uint32_t connected : 1;
     uint32_t setup_rec : 1;
-    uint32_t trancomplete : 1;
+    uint32_t trans_complete : 1;
     uint32_t bus_reset : 1;
     uint32_t : 4;
     uint32_t crc_error : 1;

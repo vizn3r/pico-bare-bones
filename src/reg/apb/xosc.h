@@ -11,12 +11,18 @@
 // 0x0
 typedef union {
   struct {
-    uint32_t freq_range : 10;
-    uint32_t enable : 10;
-    uint32_t : 12;
+    // cannot be changed, default to XOSC_CTRL_FREQ_1_15MHz
+    uint32_t freq_range : 12;
+    uint32_t enable : 12;
+    uint32_t : 8;
   };
   uint32_t raw;
 } xosc_ctrl_t;
+
+#define XOSC_CTRL_ENABLE (uint16_t)0xfab
+#define XOSC_CTRL_DISABLE (uint16_t)0xd1e
+
+#define XOSC_CTRL_FREQ_1_15MHz (uint32_t)0xaa0
 
 // 0x04
 typedef union {
@@ -24,7 +30,7 @@ typedef union {
     uint32_t freq_range : 2;
     uint32_t : 10;
     uint32_t enabled : 1;
-    uint32_t : 9;
+    uint32_t : 11;
     uint32_t badwrite : 1;
     uint32_t : 6;
     uint32_t stable : 1;

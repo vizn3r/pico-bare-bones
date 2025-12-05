@@ -24,23 +24,35 @@ void usb_init_b(void) {
   __asm volatile("cpsie i");
 
   // Enable XOSC
-  // XOSC_CTRL.raw = 0xAA0;
-  // XOSC_STARTUP.raw = 47;
-  // while (!(XOSC_STATUS.raw & 0x80000000))
+  // while (!(xosc_status.raw & 0x80000000))
   //  ;
+  XOSC_CTRL.enable = XOSC_CTRL_ENABLE;
+  XOSC_STARTUP.delay = 47; // (12MHz * 0,001) / 256 ~= 47
+  XOSC_CTRL.freq_range = XOSC_CTRL_FREQ_1_15MHz;
+  while (!(XOSC_STATUS.stable))
+    ;
   gpio_led_blink_b(1);
 
-  // Configure PLL_USB
+  // Reset PLL_USB
   RESETS_RESET_CLR(RESETS_RESET_OFFSET_PLL_USB);
   while (!RESETS_RESET_DONE_OK(RESETS_RESET_OFFSET_PLL_USB))
     ;
   gpio_led_blink_b(1);
 
-  PLL_USB_FBDIV_INT.raw = (1 << 5) | (1 << 8);
-  PLL_USB_CS.raw = 1;
-  PLL_USB_PWR.raw = 40;
-  while (!(PLL_USB_CS.raw & 0x80000000))
+  // Setup USB_PLL
+  // (FREF / REFDIV) × FBDIV / (POSTDIV1 × POSTDIV2) = FOUTPOSTDIV
+  // (12MHz / 1) * 40 / (5 * 2) = 48MHz
+  PLL_USB_CS.refdiv = 1;
+  PLL_USB_FBDIV_INT.ctrl = 40;
+
+  PLL_USB_PWR.pd = 0;
+  PLL_USB_PWR.vcopd = 0;
+  while (!(PLL_USB_CS.lock))
     ;
+
+  PLL_USB_PRIM.postdiv1 = 5;
+  PLL_USB_PRIM.postdiv2 = 2;
+  PLL_USB_PWR.postdivpd = 0;
   gpio_led_blink_b(1);
 
   PLL_USB_PRIM.raw = (5 << 16) | (2 << 12);
@@ -60,6 +72,7 @@ void usb_init_b(void) {
     *(volatile uint32_t *)(USBCTRL_DPSRAM_BASE + i) = 0;
   }
 
+  // Setup USBCTRL
   USBCTRL_MAIN_CTRL.raw = 0;
   USBCTRL_USB_MUXING.to_phy = 1;
   USBCTRL_USB_MUXING.softcon = 1;
@@ -86,7 +99,7 @@ void usb_init_b(void) {
 }
 
 void usb_irq_handle(void) {
-  SIO_GPIO_OUT_SET(LED_GPIO);
+  gpio_led_blink_fast_b(2);
   if (USBCTRL_INTS.setup_req) {
     volatile uint8_t *setup = (volatile uint8_t *)USBCTRL_DPSRAM_SETUP_PACKET;
 
