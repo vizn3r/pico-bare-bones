@@ -20,7 +20,7 @@ typedef union {
     uint32_t lock : 1;
   };
   uint32_t raw;
-} pll_reg_cs_t;
+} pll_cs_t;
 
 // 0x4
 typedef union {
@@ -34,7 +34,7 @@ typedef union {
     uint32_t : 24;
   };
   uint32_t raw;
-} pll_reg_pwr_t;
+} pll_pwr_t;
 
 // 0x8
 typedef union {
@@ -43,7 +43,7 @@ typedef union {
     uint32_t : 20;
   };
   uint32_t raw;
-} pll_reg_fbvdiv_int_t;
+} pll_fbvdiv_int_t;
 
 // 0xc
 typedef union {
@@ -55,16 +55,14 @@ typedef union {
     uint32_t : 13;
   };
   uint32_t raw;
-} pll_reg_prim_t;
+} pll_prim_t;
 
-#define PLL_SYS_REG_CS (*(volatile pll_reg_cs_t *)(PLL_SYS_BASE + 0x0))
-#define PLL_SYS_REG_PWR (*(volatile pll_reg_pwr_t *)(PLL_SYS_BASE + 0x4))
-#define PLL_SYS_REG_FBDIV_INT                                                  \
-  (*(volatile pll_reg_fbvdiv_int_t *)(PLL_SYS_BASE + 0x8))
-#define PLL_SYS_REG_PRIM (*(volatile pll_reg_prim_t *)(PLL_SYS_BASE + 0xc))
+#define PLL_SYS_CS (*(volatile pll_cs_t *)(PLL_SYS_BASE + 0x0))
+#define PLL_SYS_PWR (*(volatile pll_pwr_t *)(PLL_SYS_BASE + 0x4))
+#define PLL_SYS_FBDIV_INT (*(volatile pll_fbvdiv_int_t *)(PLL_SYS_BASE + 0x8))
+#define PLL_SYS_PRIM (*(volatile pll_prim_t *)(PLL_SYS_BASE + 0xc))
 
-#define PLL_USB_REG_CS (*(volatile pll_reg_cs_t *)(PLL_USB_BASE + 0x0))
-#define PLL_USB_REG_PWR (*(volatile pll_reg_pwr_t *)(PLL_USB_BASE + 0x4))
-#define PLL_USB_REG_FBDIV_INT                                                  \
-  (*(volatile pll_reg_fbvdiv_int_t *)(PLL_USB_BASE + 0x8))
-#define PLL_USB_REG_PRIM (*(volatile pll_reg_prim_t *)(PLL_USB_BASE + 0xc))
+#define PLL_USB_CS (*(volatile pll_cs_t *)(PLL_USB_BASE + 0x0))
+#define PLL_USB_PWR (*(volatile pll_pwr_t *)(PLL_USB_BASE + 0x4))
+#define PLL_USB_FBDIV_INT (*(volatile pll_fbvdiv_int_t *)(PLL_USB_BASE + 0x8))
+#define PLL_USB_PRIM (*(volatile pll_prim_t *)(PLL_USB_BASE + 0xc))

@@ -23,7 +23,7 @@ typedef union {
     uint32_t : 11;
   };
   uint32_t raw;
-} clock_reg_clk_gpout_ctrl_t;
+} clock_clk_gpout_ctrl_t;
 
 typedef union {
   struct {
@@ -31,14 +31,14 @@ typedef union {
     uint32_t integer : 24;
   };
   uint32_t raw;
-} clock_reg_clk_gpout_div_t;
+} clock_clk_gpout_div_t;
 
 typedef union {
   struct {
     uint32_t slice : 32;
   };
   uint32_t raw;
-} clock_reg_clk_gpout_selected_t;
+} clock_clk_gpout_selected_t;
 
 typedef union {
   struct {
@@ -48,7 +48,7 @@ typedef union {
     uint32_t : 25;
   };
   uint32_t raw;
-} clock_reg_clk_ref_ctrl_t;
+} clock_clk_ref_ctrl_t;
 
 typedef union {
   struct {
@@ -57,14 +57,14 @@ typedef union {
     uint32_t : 22;
   };
   uint32_t raw;
-} clock_reg_clk_ref_div_t;
+} clock_clk_ref_div_t;
 
 typedef union {
   struct {
     uint32_t slice : 32;
   };
   uint32_t raw;
-} clock_reg_clk_ref_selected_t;
+} clock_clk_ref_selected_t;
 
 typedef union {
   struct {
@@ -74,7 +74,7 @@ typedef union {
     uint32_t : 24;
   };
   uint32_t raw;
-} clock_reg_clk_sys_ctrl_t;
+} clock_clk_sys_ctrl_t;
 
 typedef union {
   struct {
@@ -82,14 +82,14 @@ typedef union {
     uint32_t integer : 24;
   };
   uint32_t raw;
-} clock_reg_clk_sys_div_t;
+} clock_clk_sys_div_t;
 
 typedef union {
   struct {
     uint32_t slice : 32;
   };
   uint32_t raw;
-} clock_reg_clk_sys_selected_t;
+} clock_clk_sys_selected_t;
 
 typedef union {
   struct {
@@ -101,14 +101,14 @@ typedef union {
     uint32_t : 20;
   };
   uint32_t raw;
-} clock_reg_clk_peri_ctrl_t;
+} clock_clk_peri_ctrl_t;
 
 typedef union {
   struct {
     uint32_t slice : 32;
   };
   uint32_t raw;
-} clock_reg_clk_peri_selected_t;
+} clock_clk_peri_selected_t;
 
 typedef union {
   struct {
@@ -124,7 +124,7 @@ typedef union {
     uint32_t : 11;
   };
   uint32_t raw;
-} clock_reg_clk_usb_ctrl_t;
+} clock_clk_usb_ctrl_t;
 
 typedef union {
   struct {
@@ -133,14 +133,14 @@ typedef union {
     uint32_t : 22;
   };
   uint32_t raw;
-} clock_reg_clk_usb_div_t;
+} clock_clk_usb_div_t;
 
 typedef union {
   struct {
     uint32_t slice : 32;
   };
   uint32_t raw;
-} clock_reg_clk_usb_selected_t;
+} clock_clk_usb_selected_t;
 
 typedef union {
   struct {
@@ -156,7 +156,7 @@ typedef union {
     uint32_t : 11;
   };
   uint32_t raw;
-} clock_reg_clk_adc_ctrl_t;
+} clock_clk_adc_ctrl_t;
 
 typedef union {
   struct {
@@ -165,14 +165,14 @@ typedef union {
     uint32_t : 22;
   };
   uint32_t raw;
-} clock_reg_clk_adc_div_t;
+} clock_clk_adc_div_t;
 
 typedef union {
   struct {
     uint32_t slice : 32;
   };
   uint32_t raw;
-} clock_reg_clk_adc_selected_t;
+} clock_clk_adc_selected_t;
 
 typedef union {
   struct {
@@ -188,7 +188,7 @@ typedef union {
     uint32_t : 11;
   };
   uint32_t raw;
-} clock_reg_clk_rtc_ctrl_t;
+} clock_clk_rtc_ctrl_t;
 
 typedef union {
   struct {
@@ -196,14 +196,14 @@ typedef union {
     uint32_t integer : 24;
   };
   uint32_t raw;
-} clock_reg_clk_rtc_div_t;
+} clock_clk_rtc_div_t;
 
 typedef union {
   struct {
     uint32_t slice : 32;
   };
   uint32_t raw;
-} clock_reg_clk_rtc_selected_t;
+} clock_clk_rtc_selected_t;
 
 typedef union {
   struct {
@@ -216,7 +216,7 @@ typedef union {
     uint32_t : 15;
   };
   uint32_t raw;
-} clock_reg_clk_sys_resus_ctrl_t;
+} clock_clk_sys_resus_ctrl_t;
 
 typedef union {
   struct {
@@ -224,7 +224,7 @@ typedef union {
     uint32_t : 31;
   };
   uint32_t raw;
-} clock_reg_clk_sys_resus_status_t;
+} clock_clk_sys_resus_status_t;
 
 typedef union {
   struct {
@@ -232,7 +232,7 @@ typedef union {
     uint32_t : 12;
   };
   uint32_t raw;
-} clock_reg_fc0_ref_khz_t;
+} clock_fc0_ref_khz_t;
 
 typedef union {
   struct {
@@ -240,7 +240,7 @@ typedef union {
     uint32_t : 7;
   };
   uint32_t raw;
-} clock_reg_fc0_min_khz_t;
+} clock_fc0_min_khz_t;
 
 typedef union {
   struct {
@@ -248,7 +248,7 @@ typedef union {
     uint32_t : 7;
   };
   uint32_t raw;
-} clock_reg_fc0_max_khz_t;
+} clock_fc0_max_khz_t;
 
 typedef union {
   struct {
@@ -256,7 +256,7 @@ typedef union {
     uint32_t : 29;
   };
   uint32_t raw;
-} clock_reg_fc0_delay_t;
+} clock_fc0_delay_t;
 
 typedef union {
   struct {
@@ -264,7 +264,7 @@ typedef union {
     uint32_t : 28;
   };
   uint32_t raw;
-} clock_reg_fc0_interval_t;
+} clock_fc0_interval_t;
 
 typedef union {
   struct {
@@ -272,7 +272,7 @@ typedef union {
     uint32_t : 24;
   };
   uint32_t raw;
-} clock_reg_fc0_src_t;
+} clock_fc0_src_t;
 
 typedef union {
   struct {
@@ -294,7 +294,7 @@ typedef union {
     uint32_t : 3;
   };
   uint32_t raw;
-} clock_reg_fc0_status_t;
+} clock_fc0_status_t;
 
 typedef union {
   struct {
@@ -303,7 +303,7 @@ typedef union {
     uint32_t : 2;
   };
   uint32_t raw;
-} clock_reg_fc0_result_t;
+} clock_fc0_result_t;
 
 typedef union {
   struct {
@@ -341,7 +341,7 @@ typedef union {
     uint32_t clk_sys_sram3 : 1;
   };
   uint32_t raw;
-} clock_reg_wake_en0_t;
+} clock_wake_en0_t;
 
 typedef union {
   struct {
@@ -363,7 +363,7 @@ typedef union {
     uint32_t : 17;
   };
   uint32_t raw;
-} clock_reg_wake_en1_t;
+} clock_wake_en1_t;
 
 typedef union {
   struct {
@@ -401,7 +401,7 @@ typedef union {
     uint32_t clk_sys_sram3 : 1;
   };
   uint32_t raw;
-} clock_reg_sleep_en0_t;
+} clock_sleep_en0_t;
 
 typedef union {
   struct {
@@ -423,7 +423,7 @@ typedef union {
     uint32_t : 17;
   };
   uint32_t raw;
-} clock_reg_sleep_en1_t;
+} clock_sleep_en1_t;
 
 typedef union {
   struct {
@@ -461,7 +461,7 @@ typedef union {
     uint32_t clk_sys_sram3 : 1;
   };
   uint32_t raw;
-} clock_reg_enabled0_t;
+} clock_enabled0_t;
 
 typedef union {
   struct {
@@ -483,7 +483,7 @@ typedef union {
     uint32_t : 17;
   };
   uint32_t raw;
-} clock_reg_enabled1_t;
+} clock_enabled1_t;
 
 typedef union {
   struct {
@@ -491,7 +491,7 @@ typedef union {
     uint32_t : 31;
   };
   uint32_t raw;
-} clock_reg_intr_t;
+} clock_intr_t;
 
 typedef union {
   struct {
@@ -499,7 +499,7 @@ typedef union {
     uint32_t : 31;
   };
   uint32_t raw;
-} clock_reg_inte_t;
+} clock_inte_t;
 
 typedef union {
   struct {
@@ -507,7 +507,7 @@ typedef union {
     uint32_t : 31;
   };
   uint32_t raw;
-} clock_reg_intf_t;
+} clock_intf_t;
 
 typedef union {
   struct {
@@ -515,98 +515,81 @@ typedef union {
     uint32_t : 31;
   };
   uint32_t raw;
-} clock_reg_ints_t;
+} clock_ints_t;
 
-#define CLOCK_REG_CLK_GPOUT0_CTRL                                              \
-  (*(volatile clock_reg_clk_gpout_ctrl_t *)(CLOCK_BASE + 0x00))
-#define CLOCK_REG_CLK_GPOUT0_DIV                                               \
-  (*(volatile clock_reg_clk_gpout_div_t *)(CLOCK_BASE + 0x04))
-#define CLOCK_REG_CLK_GPOUT0_SELECTED                                          \
-  (*(volatile clock_reg_clk_gpout_selected_t *)(CLOCK_BASE + 0x08))
-#define CLOCK_REG_CLK_GPOUT1_CTRL                                              \
-  (*(volatile clock_reg_clk_gpout_ctrl_t *)(CLOCK_BASE + 0x0c))
-#define CLOCK_REG_CLK_GPOUT1_DIV                                               \
-  (*(volatile clock_reg_clk_gpout_div_t *)(CLOCK_BASE + 0x10))
-#define CLOCK_REG_CLK_GPOUT1_SELECTED                                          \
-  (*(volatile clock_reg_clk_gpout_selected_t *)(CLOCK_BASE + 0x14))
-#define CLOCK_REG_CLK_GPOUT2_CTRL                                              \
-  (*(volatile clock_reg_clk_gpout_ctrl_t *)(CLOCK_BASE + 0x18))
-#define CLOCK_REG_CLK_GPOUT2_DIV                                               \
-  (*(volatile clock_reg_clk_gpout_div_t *)(CLOCK_BASE + 0x1c))
-#define CLOCK_REG_CLK_GPOUT2_SELECTED                                          \
-  (*(volatile clock_reg_clk_gpout_selected_t *)(CLOCK_BASE + 0x20))
-#define CLOCK_REG_CLK_GPOUT3_CTRL                                              \
-  (*(volatile clock_reg_clk_gpout_ctrl_t *)(CLOCK_BASE + 0x24))
-#define CLOCK_REG_CLK_GPOUT3_DIV                                               \
-  (*(volatile clock_reg_clk_gpout_div_t *)(CLOCK_BASE + 0x28))
-#define CLOCK_REG_CLK_GPOUT3_SELECTED                                          \
-  (*(volatile clock_reg_clk_gpout_selected_t *)(CLOCK_BASE + 0x2c))
-#define CLOCK_REG_CLK_REF_CTRL                                                 \
-  (*(volatile clock_reg_clk_ref_ctrl_t *)(CLOCK_BASE + 0x30))
-#define CLOCK_REG_CLK_REF_DIV                                                  \
-  (*(volatile clock_reg_clk_ref_div_t *)(CLOCK_BASE + 0x34))
-#define CLOCK_REG_CLK_REF_SELECTED                                             \
-  (*(volatile clock_reg_clk_ref_selected_t *)(CLOCK_BASE + 0x38))
-#define CLOCK_REG_CLK_SYS_CTRL                                                 \
-  (*(volatile clock_reg_clk_sys_ctrl_t *)(CLOCK_BASE + 0x3c))
-#define CLOCK_REG_CLK_SYS_DIV                                                  \
-  (*(volatile clock_reg_clk_sys_div_t *)(CLOCK_BASE + 0x40))
-#define CLOCK_REG_CLK_SYS_SELECTED                                             \
-  (*(volatile clock_reg_clk_sys_selected_t *)(CLOCK_BASE + 0x44))
-#define CLOCK_REG_CLK_PERI_CTRL                                                \
-  (*(volatile clock_reg_clk_peri_ctrl_t *)(CLOCK_BASE + 0x48))
-#define CLOCK_REG_CLK_PERI_SELECTED                                            \
-  (*(volatile clock_reg_clk_peri_selected_t *)(CLOCK_BASE + 0x50))
-#define CLOCK_REG_CLK_USB_CTRL                                                 \
-  (*(volatile clock_reg_clk_usb_ctrl_t *)(CLOCK_BASE + 0x54))
-#define CLOCK_REG_CLK_USB_DIV                                                  \
-  (*(volatile clock_reg_clk_usb_div_t *)(CLOCK_BASE + 0x58))
-#define CLOCK_REG_CLK_USB_SELECTED                                             \
-  (*(volatile clock_reg_clk_usb_selected_t *)(CLOCK_BASE + 0x5c))
-#define CLOCK_REG_CLK_ADC_CTRL                                                 \
-  (*(volatile clock_reg_clk_adc_ctrl_t *)(CLOCK_BASE + 0x60))
-#define CLOCK_REG_CLK_ADC_DIV                                                  \
-  (*(volatile clock_reg_clk_adc_div_t *)(CLOCK_BASE + 0x64))
-#define CLOCK_REG_CLK_ADC_SELECTED                                             \
-  (*(volatile clock_reg_clk_adc_selected_t *)(CLOCK_BASE + 0x68))
-#define CLOCK_REG_CLK_RTC_CTRL                                                 \
-  (*(volatile clock_reg_clk_rtc_ctrl_t *)(CLOCK_BASE + 0x6c))
-#define CLOCK_REG_CLK_RTC_DIV                                                  \
-  (*(volatile clock_reg_clk_rtc_div_t *)(CLOCK_BASE + 0x70))
-#define CLOCK_REG_CLK_RTC_SELECTED                                             \
-  (*(volatile clock_reg_clk_rtc_selected_t *)(CLOCK_BASE + 0x74))
-#define CLOCK_REG_CLK_SYS_RESUS_CTRL                                           \
-  (*(volatile clock_reg_clk_sys_resus_ctrl_t *)(CLOCK_BASE + 0x78))
-#define CLOCK_REG_CLK_SYS_RESUS_STATUS                                         \
-  (*(volatile clock_reg_clk_sys_resus_status_t *)(CLOCK_BASE + 0x7c))
-#define CLOCK_REG_FC0_REF_KHZ                                                  \
-  (*(volatile clock_reg_fc0_ref_khz_t *)(CLOCK_BASE + 0x80))
-#define CLOCK_REG_FC0_MIN_KHZ                                                  \
-  (*(volatile clock_reg_fc0_min_khz_t *)(CLOCK_BASE + 0x84))
-#define CLOCK_REG_FC0_MAX_KHZ                                                  \
-  (*(volatile clock_reg_fc0_max_khz_t *)(CLOCK_BASE + 0x88))
-#define CLOCK_REG_FC0_DELAY                                                    \
-  (*(volatile clock_reg_fc0_delay_t *)(CLOCK_BASE + 0x8c))
-#define CLOCK_REG_FC0_INTERVAL                                                 \
-  (*(volatile clock_reg_fc0_interval_t *)(CLOCK_BASE + 0x90))
-#define CLOCK_REG_FC0_SRC (*(volatile clock_reg_fc0_src_t *)(CLOCK_BASE + 0x94))
-#define CLOCK_REG_FC0_STATUS                                                   \
-  (*(volatile clock_reg_fc0_status_t *)(CLOCK_BASE + 0x98))
-#define CLOCK_REG_FC0_RESULT                                                   \
-  (*(volatile clock_reg_fc0_result_t *)(CLOCK_BASE + 0x9c))
-#define CLOCK_REG_WAKE_EN0                                                     \
-  (*(volatile clock_reg_wake_en0_t *)(CLOCK_BASE + 0xa0))
-#define CLOCK_REG_WAKE_EN1                                                     \
-  (*(volatile clock_reg_wake_en1_t *)(CLOCK_BASE + 0xa4))
-#define CLOCK_REG_SLEEP_EN0                                                    \
-  (*(volatile clock_reg_sleep_en0_t *)(CLOCK_BASE + 0xa8))
-#define CLOCK_REG_SLEEP_EN1                                                    \
-  (*(volatile clock_reg_sleep_en1_t *)(CLOCK_BASE + 0xac))
-#define CLOCK_REG_ENABLED0                                                     \
-  (*(volatile clock_reg_enabled0_t *)(CLOCK_BASE + 0xb0))
-#define CLOCK_REG_ENABLED1                                                     \
-  (*(volatile clock_reg_enabled1_t *)(CLOCK_BASE + 0xb4))
-#define CLOCK_REG_INTR (*(volatile clock_reg_intr_t *)(CLOCK_BASE + 0xb8))
-#define CLOCK_REG_INTE (*(volatile clock_reg_inte_t *)(CLOCK_BASE + 0xbc))
-#define CLOCK_REG_INTF (*(volatile clock_reg_intf_t *)(CLOCK_BASE + 0xc0))
-#define CLOCK_REG_INTS (*(volatile clock_reg_ints_t *)(CLOCK_BASE + 0xc4))
+#define CLOCK_CLK_GPOUT0_CTRL                                                  \
+  (*(volatile clock_clk_gpout_ctrl_t *)(CLOCK_BASE + 0x00))
+#define CLOCK_CLK_GPOUT0_DIV                                                   \
+  (*(volatile clock_clk_gpout_div_t *)(CLOCK_BASE + 0x04))
+#define CLOCK_CLK_GPOUT0_SELECTED                                              \
+  (*(volatile clock_clk_gpout_selected_t *)(CLOCK_BASE + 0x08))
+#define CLOCK_CLK_GPOUT1_CTRL                                                  \
+  (*(volatile clock_clk_gpout_ctrl_t *)(CLOCK_BASE + 0x0c))
+#define CLOCK_CLK_GPOUT1_DIV                                                   \
+  (*(volatile clock_clk_gpout_div_t *)(CLOCK_BASE + 0x10))
+#define CLOCK_CLK_GPOUT1_SELECTED                                              \
+  (*(volatile clock_clk_gpout_selected_t *)(CLOCK_BASE + 0x14))
+#define CLOCK_CLK_GPOUT2_CTRL                                                  \
+  (*(volatile clock_clk_gpout_ctrl_t *)(CLOCK_BASE + 0x18))
+#define CLOCK_CLK_GPOUT2_DIV                                                   \
+  (*(volatile clock_clk_gpout_div_t *)(CLOCK_BASE + 0x1c))
+#define CLOCK_CLK_GPOUT2_SELECTED                                              \
+  (*(volatile clock_clk_gpout_selected_t *)(CLOCK_BASE + 0x20))
+#define CLOCK_CLK_GPOUT3_CTRL                                                  \
+  (*(volatile clock_clk_gpout_ctrl_t *)(CLOCK_BASE + 0x24))
+#define CLOCK_CLK_GPOUT3_DIV                                                   \
+  (*(volatile clock_clk_gpout_div_t *)(CLOCK_BASE + 0x28))
+#define CLOCK_CLK_GPOUT3_SELECTED                                              \
+  (*(volatile clock_clk_gpout_selected_t *)(CLOCK_BASE + 0x2c))
+#define CLOCK_CLK_REF_CTRL                                                     \
+  (*(volatile clock_clk_ref_ctrl_t *)(CLOCK_BASE + 0x30))
+#define CLOCK_CLK_REF_DIV (*(volatile clock_clk_ref_div_t *)(CLOCK_BASE + 0x34))
+#define CLOCK_CLK_REF_SELECTED                                                 \
+  (*(volatile clock_clk_ref_selected_t *)(CLOCK_BASE + 0x38))
+#define CLOCK_CLK_SYS_CTRL                                                     \
+  (*(volatile clock_clk_sys_ctrl_t *)(CLOCK_BASE + 0x3c))
+#define CLOCK_CLK_SYS_DIV (*(volatile clock_clk_sys_div_t *)(CLOCK_BASE + 0x40))
+#define CLOCK_CLK_SYS_SELECTED                                                 \
+  (*(volatile clock_clk_sys_selected_t *)(CLOCK_BASE + 0x44))
+#define CLOCK_CLK_PERI_CTRL                                                    \
+  (*(volatile clock_clk_peri_ctrl_t *)(CLOCK_BASE + 0x48))
+#define CLOCK_CLK_PERI_SELECTED                                                \
+  (*(volatile clock_clk_peri_selected_t *)(CLOCK_BASE + 0x50))
+#define CLOCK_CLK_USB_CTRL                                                     \
+  (*(volatile clock_clk_usb_ctrl_t *)(CLOCK_BASE + 0x54))
+#define CLOCK_CLK_USB_DIV (*(volatile clock_clk_usb_div_t *)(CLOCK_BASE + 0x58))
+#define CLOCK_CLK_USB_SELECTED                                                 \
+  (*(volatile clock_clk_usb_selected_t *)(CLOCK_BASE + 0x5c))
+#define CLOCK_CLK_ADC_CTRL                                                     \
+  (*(volatile clock_clk_adc_ctrl_t *)(CLOCK_BASE + 0x60))
+#define CLOCK_CLK_ADC_DIV (*(volatile clock_clk_adc_div_t *)(CLOCK_BASE + 0x64))
+#define CLOCK_CLK_ADC_SELECTED                                                 \
+  (*(volatile clock_clk_adc_selected_t *)(CLOCK_BASE + 0x68))
+#define CLOCK_CLK_RTC_CTRL                                                     \
+  (*(volatile clock_clk_rtc_ctrl_t *)(CLOCK_BASE + 0x6c))
+#define CLOCK_CLK_RTC_DIV (*(volatile clock_clk_rtc_div_t *)(CLOCK_BASE + 0x70))
+#define CLOCK_CLK_RTC_SELECTED                                                 \
+  (*(volatile clock_clk_rtc_selected_t *)(CLOCK_BASE + 0x74))
+#define CLOCK_CLK_SYS_RESUS_CTRL                                               \
+  (*(volatile clock_clk_sys_resus_ctrl_t *)(CLOCK_BASE + 0x78))
+#define CLOCK_CLK_SYS_RESUS_STATUS                                             \
+  (*(volatile clock_clk_sys_resus_status_t *)(CLOCK_BASE + 0x7c))
+#define CLOCK_FC0_REF_KHZ (*(volatile clock_fc0_ref_khz_t *)(CLOCK_BASE + 0x80))
+#define CLOCK_FC0_MIN_KHZ (*(volatile clock_fc0_min_khz_t *)(CLOCK_BASE + 0x84))
+#define CLOCK_FC0_MAX_KHZ (*(volatile clock_fc0_max_khz_t *)(CLOCK_BASE + 0x88))
+#define CLOCK_FC0_DELAY (*(volatile clock_fc0_delay_t *)(CLOCK_BASE + 0x8c))
+#define CLOCK_FC0_INTERVAL                                                     \
+  (*(volatile clock_fc0_interval_t *)(CLOCK_BASE + 0x90))
+#define CLOCK_FC0_SRC (*(volatile clock_fc0_src_t *)(CLOCK_BASE + 0x94))
+#define CLOCK_FC0_STATUS (*(volatile clock_fc0_status_t *)(CLOCK_BASE + 0x98))
+#define CLOCK_FC0_RESULT (*(volatile clock_fc0_result_t *)(CLOCK_BASE + 0x9c))
+#define CLOCK_WAKE_EN0 (*(volatile clock_wake_en0_t *)(CLOCK_BASE + 0xa0))
+#define CLOCK_WAKE_EN1 (*(volatile clock_wake_en1_t *)(CLOCK_BASE + 0xa4))
+#define CLOCK_SLEEP_EN0 (*(volatile clock_sleep_en0_t *)(CLOCK_BASE + 0xa8))
+#define CLOCK_SLEEP_EN1 (*(volatile clock_sleep_en1_t *)(CLOCK_BASE + 0xac))
+#define CLOCK_ENABLED0 (*(volatile clock_enabled0_t *)(CLOCK_BASE + 0xb0))
+#define CLOCK_ENABLED1 (*(volatile clock_enabled1_t *)(CLOCK_BASE + 0xb4))
+#define CLOCK_INTR (*(volatile clock_intr_t *)(CLOCK_BASE + 0xb8))
+#define CLOCK_INTE (*(volatile clock_inte_t *)(CLOCK_BASE + 0xbc))
+#define CLOCK_INTF (*(volatile clock_intf_t *)(CLOCK_BASE + 0xc0))
+#define CLOCK_INTS (*(volatile clock_ints_t *)(CLOCK_BASE + 0xc4))

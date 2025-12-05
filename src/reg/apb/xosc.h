@@ -16,7 +16,7 @@ typedef union {
     uint32_t : 12;
   };
   uint32_t raw;
-} xosc_reg_ctrl_t;
+} xosc_ctrl_t;
 
 // 0x04
 typedef union {
@@ -30,11 +30,11 @@ typedef union {
     uint32_t stable : 1;
   };
   uint32_t raw;
-} xosc_reg_status_t;
+} xosc_status_t;
 
 // 0x08
-#define XOSC_REG_DORMANT_DORMANT 0x636f6d61
-#define XOSC_REG_DORMANT_WAKE 0x77616b65
+#define XOSC_DORMANT_DORMANT 0x636f6d61
+#define XOSC_DORMANT_WAKE 0x77616b65
 
 // 0x0c
 typedef union {
@@ -45,7 +45,7 @@ typedef union {
     uint32_t : 11;
   };
   uint32_t raw;
-} xosc_reg_startup_t;
+} xosc_startup_t;
 
 // 0x1c
 typedef union {
@@ -54,10 +54,10 @@ typedef union {
     uint32_t : 24;
   };
   uint32_t raw;
-} xosc_reg_count_t;
+} xosc_count_t;
 
-#define XOSC_REG_CTRL (*(volatile xosc_reg_ctrl_t *)(XOSC_BASE + 0x00))
-#define XOSC_REG_STATUS (*(volatile xosc_reg_status_t *)(XOSC_BASE + 0x04))
-#define XOSC_REG_DORMANT (*(volatile uint32_t *)(XOSC_BASE + 0x08))
-#define XOSC_REG_STARTUP (*(volatile xosc_reg_startup_t *)(XOSC_BASE + 0x0c))
-#define XOSC_REG_COUNT (*(volatile uint32_t *)(XOSC_BASE + 0x1c))
+#define XOSC_CTRL (*(volatile xosc_ctrl_t *)(XOSC_BASE + 0x00))
+#define XOSC_STATUS (*(volatile xosc_status_t *)(XOSC_BASE + 0x04))
+#define XOSC_DORMANT (*(volatile uint32_t *)(XOSC_BASE + 0x08))
+#define XOSC_STARTUP (*(volatile xosc_startup_t *)(XOSC_BASE + 0x0c))
+#define XOSC_COUNT (*(volatile uint32_t *)(XOSC_BASE + 0x1c))

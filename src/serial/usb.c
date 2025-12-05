@@ -24,10 +24,10 @@ void usb_init_b(void) {
   __asm volatile("cpsie i");
 
   // Enable XOSC
-  XOSC_REG_CTRL.raw = 0xAA0;
-  XOSC_REG_STATUS.raw = 47;
-  while (!(XOSC_REG_STARTUP.raw & 0x80000000))
-    ;
+  // XOSC_CTRL.raw = 0xAA0;
+  // XOSC_STARTUP.raw = 47;
+  // while (!(XOSC_STATUS.raw & 0x80000000))
+  //  ;
   gpio_led_blink_b(1);
 
   // Configure PLL_USB
@@ -36,18 +36,18 @@ void usb_init_b(void) {
     ;
   gpio_led_blink_b(1);
 
-  PLL_USB_REG_FBDIV_INT.raw = (1 << 5) | (1 << 8);
-  PLL_USB_REG_CS.raw = 1;
-  PLL_USB_REG_PWR.raw = 40;
-  PLL_USB_REG_FBDIV_INT.raw = 0;
-  while (!(PLL_USB_REG_CS.raw & 0x80000000))
+  PLL_USB_FBDIV_INT.raw = (1 << 5) | (1 << 8);
+  PLL_USB_CS.raw = 1;
+  PLL_USB_PWR.raw = 40;
+  while (!(PLL_USB_CS.raw & 0x80000000))
     ;
   gpio_led_blink_b(1);
-  PLL_USB_REG_PRIM.raw = (5 << 16) | (2 << 12);
+
+  PLL_USB_PRIM.raw = (5 << 16) | (2 << 12);
 
   // Configure CLK_USB from PLL_USB (48MHz)
-  CLOCK_REG_CLK_USB_DIV.raw = (1 << 8);
-  CLOCK_REG_CLK_USB_CTRL.raw = (1 << 11);
+  CLOCK_CLK_USB_DIV.raw = (1 << 8);
+  CLOCK_CLK_USB_CTRL.raw = (1 << 11);
 
   // Bring USB controller out of reset
   RESETS_RESET_CLR(RESETS_RESET_OFFSET_USBCTRL);
@@ -60,34 +60,34 @@ void usb_init_b(void) {
     *(volatile uint32_t *)(USBCTRL_DPSRAM_BASE + i) = 0;
   }
 
-  USBCTRL_REG_MAIN_CTRL.raw = 0;
-  USBCTRL_REG_USB_MUXING.to_phy = 1;
-  USBCTRL_REG_USB_MUXING.softcon = 1;
+  USBCTRL_MAIN_CTRL.raw = 0;
+  USBCTRL_USB_MUXING.to_phy = 1;
+  USBCTRL_USB_MUXING.softcon = 1;
 
-  USBCTRL_REG_USB_PWR.vbus_detect = 1;
-  USBCTRL_REG_USB_PWR.vbus_detect_override_en = 1;
+  USBCTRL_USB_PWR.vbus_detect = 1;
+  USBCTRL_USB_PWR.vbus_detect_override_en = 1;
 
-  USBCTRL_REG_MAIN_CTRL.controller_en = 1;
+  USBCTRL_MAIN_CTRL.controller_en = 1;
 
-  while (!USBCTRL_REG_SIE_STATUS.vbus_detected)
+  while (!USBCTRL_SIE_STATUS.vbus_detected)
     ;
 
-  USBCTRL_REG_INTE.setup_req = 1;
-  USBCTRL_REG_INTE.buff_status = 1;
-  USBCTRL_REG_INTE.bus_reset = 1;
+  USBCTRL_INTE.setup_req = 1;
+  USBCTRL_INTE.buff_status = 1;
+  USBCTRL_INTE.bus_reset = 1;
 
-  USBCTRL_REG_SIE_CTRL.pullup_en = 1;
+  USBCTRL_SIE_CTRL.pullup_en = 1;
 
   USBCTRL_DPSRAM_EP_OUT_BUFF_CTRL(0) = 64 | (1 << 10);
 
-  PPB_REG_NVIC_ISER.raw |= (1 << 5);
+  PPB_NVIC_ISER.raw |= (1 << 5);
 
   gpio_led_blink_fast_b(3);
 }
 
 void usb_irq_handle(void) {
   SIO_GPIO_OUT_SET(LED_GPIO);
-  if (USBCTRL_REG_INTS.setup_req) {
+  if (USBCTRL_INTS.setup_req) {
     volatile uint8_t *setup = (volatile uint8_t *)USBCTRL_DPSRAM_SETUP_PACKET;
 
     usb_setup_packet_t *packet = (usb_setup_packet_t *)setup;
@@ -180,17 +180,17 @@ void usb_irq_handle(void) {
     default:
       break;
     }
-    USBCTRL_REG_SIE_STATUS.setup_rec = 1;
+    USBCTRL_SIE_STATUS.setup_rec = 1;
   }
 
-  if (USBCTRL_REG_INTS.buff_status) {
-    uint32_t buffers = USBCTRL_REG_BUFF_STATUS.raw;
+  if (USBCTRL_INTS.buff_status) {
+    uint32_t buffers = USBCTRL_BUFF_STATUS.raw;
 
-    USBCTRL_REG_BUFF_STATUS.raw = buffers;
+    USBCTRL_BUFF_STATUS.raw = buffers;
 
     if (buffers & (1 << 0)) {
       if (pending_address) {
-        USBCTRL_REG_ADDR_ENDP.address = pending_address;
+        USBCTRL_ADDR_ENDP.address = pending_address;
         pending_address = 0;
       }
     }
@@ -205,13 +205,13 @@ void usb_irq_handle(void) {
     }
   }
 
-  if (USBCTRL_REG_INTS.bus_reset) {
-    USBCTRL_REG_ADDR_ENDP.address = 0;
+  if (USBCTRL_INTS.bus_reset) {
+    USBCTRL_ADDR_ENDP.address = 0;
     configured = 0;
     pending_address = 0;
     ep0_data_toggle = 0;
     ep2_in_data_toggle = 0;
-    USBCTRL_REG_SIE_STATUS.bus_reset = 1;
+    USBCTRL_SIE_STATUS.bus_reset = 1;
   }
 }
 

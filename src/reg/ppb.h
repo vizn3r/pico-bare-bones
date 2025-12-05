@@ -18,7 +18,7 @@ typedef union {
     uint32_t : 15;
   };
   uint32_t raw;
-} ppb_reg_syst_csr_t;
+} ppb_syst_csr_t;
 
 typedef union {
   struct {
@@ -26,7 +26,7 @@ typedef union {
     uint32_t : 8;
   };
   uint32_t raw;
-} ppb_reg_syst_rvr_t;
+} ppb_syst_rvr_t;
 
 typedef union {
   struct {
@@ -34,7 +34,7 @@ typedef union {
     uint32_t : 8;
   };
   uint32_t raw;
-} ppb_reg_syst_cvr_t;
+} ppb_syst_cvr_t;
 
 typedef union {
   struct {
@@ -44,35 +44,35 @@ typedef union {
     uint32_t noref : 1;
   };
   uint32_t raw;
-} ppb_reg_syst_calib_t;
+} ppb_syst_calib_t;
 
 typedef union {
   struct {
     uint32_t setena : 32;
   };
   uint32_t raw;
-} ppb_reg_nvic_iser_t;
+} ppb_nvic_iser_t;
 
 typedef union {
   struct {
     uint32_t clrena : 32;
   };
   uint32_t raw;
-} ppb_reg_nvic_icer_t;
+} ppb_nvic_icer_t;
 
 typedef union {
   struct {
     uint32_t setpend : 32;
   };
   uint32_t raw;
-} ppb_reg_nvic_ispr_t;
+} ppb_nvic_ispr_t;
 
 typedef union {
   struct {
     uint32_t clrpend : 32;
   };
   uint32_t raw;
-} ppb_reg_nvic_icpr_t;
+} ppb_nvic_icpr_t;
 
 typedef union {
   struct {
@@ -86,7 +86,7 @@ typedef union {
     uint32_t ip_3 : 2;
   };
   uint32_t raw;
-} ppb_reg_nvic_ipr0_t;
+} ppb_nvic_ipr0_t;
 
 typedef union {
   struct {
@@ -100,7 +100,7 @@ typedef union {
     uint32_t ip_7 : 2;
   };
   uint32_t raw;
-} ppb_reg_nvic_ipr1_t;
+} ppb_nvic_ipr1_t;
 
 typedef union {
   struct {
@@ -114,7 +114,7 @@ typedef union {
     uint32_t ip_11 : 2;
   };
   uint32_t raw;
-} ppb_reg_nvic_ipr2_t;
+} ppb_nvic_ipr2_t;
 
 typedef union {
   struct {
@@ -128,7 +128,7 @@ typedef union {
     uint32_t ip_15 : 2;
   };
   uint32_t raw;
-} ppb_reg_nvic_ipr3_t;
+} ppb_nvic_ipr3_t;
 
 typedef union {
   struct {
@@ -142,7 +142,7 @@ typedef union {
     uint32_t ip_19 : 2;
   };
   uint32_t raw;
-} ppb_reg_nvic_ipr4_t;
+} ppb_nvic_ipr4_t;
 
 typedef union {
   struct {
@@ -156,7 +156,7 @@ typedef union {
     uint32_t ip_23 : 2;
   };
   uint32_t raw;
-} ppb_reg_nvic_ipr5_t;
+} ppb_nvic_ipr5_t;
 
 typedef union {
   struct {
@@ -170,7 +170,7 @@ typedef union {
     uint32_t ip_27 : 2;
   };
   uint32_t raw;
-} ppb_reg_nvic_ipr6_t;
+} ppb_nvic_ipr6_t;
 
 typedef union {
   struct {
@@ -184,7 +184,7 @@ typedef union {
     uint32_t ip_31 : 2;
   };
   uint32_t raw;
-} ppb_reg_nvic_ipr7_t;
+} ppb_nvic_ipr7_t;
 
 typedef union {
   struct {
@@ -195,7 +195,7 @@ typedef union {
     uint32_t implementer : 8;
   };
   uint32_t raw;
-} ppb_reg_cpuid_t;
+} ppb_cpuid_t;
 
 typedef union {
   struct {
@@ -214,7 +214,7 @@ typedef union {
     uint32_t nmipendset : 1;
   };
   uint32_t raw;
-} ppb_reg_icsr_t;
+} ppb_icsr_t;
 
 typedef union {
   struct {
@@ -222,7 +222,7 @@ typedef union {
     uint32_t tbloff : 24;
   };
   uint32_t raw;
-} ppb_reg_vtor_t;
+} ppb_vtor_t;
 
 typedef union {
   struct {
@@ -234,7 +234,7 @@ typedef union {
     uint32_t vectkey : 16;
   };
   uint32_t raw;
-} ppb_reg_aircr_t;
+} ppb_aircr_t;
 
 typedef union {
   struct {
@@ -246,7 +246,7 @@ typedef union {
     uint32_t : 27;
   };
   uint32_t raw;
-} ppb_reg_scr_t;
+} ppb_scr_t;
 
 typedef union {
   struct {
@@ -257,7 +257,7 @@ typedef union {
     uint32_t : 22;
   };
   uint32_t raw;
-} ppb_reg_ccr_t;
+} ppb_ccr_t;
 
 typedef union {
   struct {
@@ -265,7 +265,7 @@ typedef union {
     uint32_t pri_11 : 2;
   };
   uint32_t raw;
-} ppb_reg_shpr2_t;
+} ppb_shpr2_t;
 
 typedef union {
   struct {
@@ -275,7 +275,7 @@ typedef union {
     uint32_t pri_15 : 2;
   };
   uint32_t raw;
-} ppb_reg_shpr3_t;
+} ppb_shpr3_t;
 
 typedef union {
   struct {
@@ -284,7 +284,7 @@ typedef union {
     uint32_t : 16;
   };
   uint32_t raw;
-} ppb_reg_shcsr_t;
+} ppb_shcsr_t;
 
 typedef union {
   struct {
@@ -295,7 +295,7 @@ typedef union {
     uint32_t : 8;
   };
   uint32_t raw;
-} ppb_reg_mpu_type_t;
+} ppb_mpu_type_t;
 
 typedef union {
   struct {
@@ -305,7 +305,7 @@ typedef union {
     uint32_t : 29;
   };
   uint32_t raw;
-} ppb_reg_mpu_ctrl_t;
+} ppb_mpu_ctrl_t;
 
 typedef union {
   struct {
@@ -313,7 +313,7 @@ typedef union {
     uint32_t : 28;
   };
   uint32_t raw;
-} ppb_reg_mpu_rnr_t;
+} ppb_mpu_rnr_t;
 
 typedef union {
   struct {
@@ -323,7 +323,7 @@ typedef union {
     uint32_t addr : 24;
   };
   uint32_t raw;
-} ppb_reg_mpu_rbar_t;
+} ppb_mpu_rbar_t;
 
 typedef union {
   struct {
@@ -334,36 +334,35 @@ typedef union {
     uint32_t attrs : 16;
   };
   uint32_t raw;
-} ppb_reg_mpu_rasr_t;
+} ppb_mpu_rasr_t;
 
-#define PPB_REG_SYST_CSR (*(volatile ppb_reg_syst_csr_t *)(PPB_BASE + 0xe010))
-#define PPB_REG_SYST_RVR (*(volatile ppb_reg_syst_rvr_t *)(PPB_BASE + 0xe014))
-#define PPB_REG_SYST_CVR (*(volatile ppb_reg_syst_cvr_t *)(PPB_BASE + 0xe018))
-#define PPB_REG_SYST_CALIB                                                     \
-  (*(volatile ppb_reg_syst_calib_t *)(PPB_BASE + 0xe01c))
-#define PPB_REG_NVIC_ISER (*(volatile ppb_reg_nvic_iser_t *)(PPB_BASE + 0xe100))
-#define PPB_REG_NVIC_ICER (*(volatile ppb_reg_nvic_icer_t *)(PPB_BASE + 0xe180))
-#define PPB_REG_NVIC_ISPR (*(volatile ppb_reg_nvic_ispr_t *)(PPB_BASE + 0xe200))
-#define PPB_REG_NVIC_ICPR (*(volatile ppb_reg_nvic_icpr_t *)(PPB_BASE + 0xe280))
-#define PPB_REG_NVIC_IPR0 (*(volatile ppb_reg_nvic_ipr0_t *)(PPB_BASE + 0xe400))
-#define PPB_REG_NVIC_IPR1 (*(volatile ppb_reg_nvic_ipr1_t *)(PPB_BASE + 0xe404))
-#define PPB_REG_NVIC_IPR2 (*(volatile ppb_reg_nvic_ipr2_t *)(PPB_BASE + 0xe408))
-#define PPB_REG_NVIC_IPR3 (*(volatile ppb_reg_nvic_ipr3_t *)(PPB_BASE + 0xe40c))
-#define PPB_REG_NVIC_IPR4 (*(volatile ppb_reg_nvic_ipr4_t *)(PPB_BASE + 0xe410))
-#define PPB_REG_NVIC_IPR5 (*(volatile ppb_reg_nvic_ipr5_t *)(PPB_BASE + 0xe414))
-#define PPB_REG_NVIC_IPR6 (*(volatile ppb_reg_nvic_ipr6_t *)(PPB_BASE + 0xe418))
-#define PPB_REG_NVIC_IPR7 (*(volatile ppb_reg_nvic_ipr7_t *)(PPB_BASE + 0xe41c))
-#define PPB_REG_CPUID (*(volatile ppb_reg_cpuid_t *)(PPB_BASE + 0xed00))
-#define PPB_REG_ICSR (*(volatile ppb_reg_icsr_t *)(PPB_BASE + 0xed04))
-#define PPB_REG_VTOR (*(volatile ppb_reg_vtor_t *)(PPB_BASE + 0xed08))
-#define PPB_REG_AIRCR (*(volatile ppb_reg_aircr_t *)(PPB_BASE + 0xed0c))
-#define PPB_REG_SCR (*(volatile ppb_reg_scr_t *)(PPB_BASE + 0xed10))
-#define PPB_REG_CCR (*(volatile ppb_reg_ccr_t *)(PPB_BASE + 0xed14))
-#define PPB_REG_SHPR2 (*(volatile ppb_reg_shpr2_t *)(PPB_BASE + 0xed1c))
-#define PPB_REG_SHPR3 (*(volatile ppb_reg_shpr3_t *)(PPB_BASE + 0xed20))
-#define PPB_REG_SHCSR (*(volatile ppb_reg_shcsr_t *)(PPB_BASE + 0xed24))
-#define PPB_REG_MPU_TYPE (*(volatile ppb_reg_mpu_type_t *)(PPB_BASE + 0xed90))
-#define PPB_REG_MPU_CTRL (*(volatile ppb_reg_mpu_ctrl_t *)(PPB_BASE + 0xed94))
-#define PPB_REG_MPU_RNR (*(volatile ppb_reg_mpu_rnr_t *)(PPB_BASE + 0xed98))
-#define PPB_REG_MPU_RBAR (*(volatile ppb_reg_mpu_rbar_t *)(PPB_BASE + 0xed9c))
-#define PPB_REG_MPU_RASR (*(volatile ppb_reg_mpu_rasr_t *)(PPB_BASE + 0xeda0))
+#define PPB_SYST_CSR (*(volatile ppb_syst_csr_t *)(PPB_BASE + 0xe010))
+#define PPB_SYST_RVR (*(volatile ppb_syst_rvr_t *)(PPB_BASE + 0xe014))
+#define PPB_SYST_CVR (*(volatile ppb_syst_cvr_t *)(PPB_BASE + 0xe018))
+#define PPB_SYST_CALIB (*(volatile ppb_syst_calib_t *)(PPB_BASE + 0xe01c))
+#define PPB_NVIC_ISER (*(volatile ppb_nvic_iser_t *)(PPB_BASE + 0xe100))
+#define PPB_NVIC_ICER (*(volatile ppb_nvic_icer_t *)(PPB_BASE + 0xe180))
+#define PPB_NVIC_ISPR (*(volatile ppb_nvic_ispr_t *)(PPB_BASE + 0xe200))
+#define PPB_NVIC_ICPR (*(volatile ppb_nvic_icpr_t *)(PPB_BASE + 0xe280))
+#define PPB_NVIC_IPR0 (*(volatile ppb_nvic_ipr0_t *)(PPB_BASE + 0xe400))
+#define PPB_NVIC_IPR1 (*(volatile ppb_nvic_ipr1_t *)(PPB_BASE + 0xe404))
+#define PPB_NVIC_IPR2 (*(volatile ppb_nvic_ipr2_t *)(PPB_BASE + 0xe408))
+#define PPB_NVIC_IPR3 (*(volatile ppb_nvic_ipr3_t *)(PPB_BASE + 0xe40c))
+#define PPB_NVIC_IPR4 (*(volatile ppb_nvic_ipr4_t *)(PPB_BASE + 0xe410))
+#define PPB_NVIC_IPR5 (*(volatile ppb_nvic_ipr5_t *)(PPB_BASE + 0xe414))
+#define PPB_NVIC_IPR6 (*(volatile ppb_nvic_ipr6_t *)(PPB_BASE + 0xe418))
+#define PPB_NVIC_IPR7 (*(volatile ppb_nvic_ipr7_t *)(PPB_BASE + 0xe41c))
+#define PPB_CPUID (*(volatile ppb_cpuid_t *)(PPB_BASE + 0xed00))
+#define PPB_ICSR (*(volatile ppb_icsr_t *)(PPB_BASE + 0xed04))
+#define PPB_VTOR (*(volatile ppb_vtor_t *)(PPB_BASE + 0xed08))
+#define PPB_AIRCR (*(volatile ppb_aircr_t *)(PPB_BASE + 0xed0c))
+#define PPB_SCR (*(volatile ppb_scr_t *)(PPB_BASE + 0xed10))
+#define PPB_CCR (*(volatile ppb_ccr_t *)(PPB_BASE + 0xed14))
+#define PPB_SHPR2 (*(volatile ppb_shpr2_t *)(PPB_BASE + 0xed1c))
+#define PPB_SHPR3 (*(volatile ppb_shpr3_t *)(PPB_BASE + 0xed20))
+#define PPB_SHCSR (*(volatile ppb_shcsr_t *)(PPB_BASE + 0xed24))
+#define PPB_MPU_TYPE (*(volatile ppb_mpu_type_t *)(PPB_BASE + 0xed90))
+#define PPB_MPU_CTRL (*(volatile ppb_mpu_ctrl_t *)(PPB_BASE + 0xed94))
+#define PPB_MPU_RNR (*(volatile ppb_mpu_rnr_t *)(PPB_BASE + 0xed98))
+#define PPB_MPU_RBAR (*(volatile ppb_mpu_rbar_t *)(PPB_BASE + 0xed9c))
+#define PPB_MPU_RASR (*(volatile ppb_mpu_rasr_t *)(PPB_BASE + 0xeda0))
