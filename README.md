@@ -1,5 +1,7 @@
 # RPI PI Pico Bare bones
 
+***DEPRECATED***
+
 *...without Pico SDK*
 <br>
 ***...without C stdlib***
